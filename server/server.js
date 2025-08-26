@@ -37,7 +37,16 @@ app.post('/api/v1/restaurants',(req,res)=>{
 app.put('/api/v1/restaurants/:id',(req,res)=>{
     console.log(req.params.id);
     console.log(req.body);
-})
+});
+
+app.delete('/api/v1/restaurants/:id',(req,res)=>{
+    res.status(204).json(
+        {
+            "status":"success"
+        }
+    );
+});
+
 const port= process.env.PORT || 3001;
 app.listen(port,()=>{
     console.log(`Server is up and listening on port ${port}`);
