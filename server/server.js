@@ -1,12 +1,10 @@
 import dotenv from 'dotenv';
 dotenv.config();
 import express from 'express';
-const app = express();
+import morgan from 'morgan';
 
-app.use((req,res,next)=>{
-    console.log("yeah now middlewear works");
-    next();
-});
+const app = express();
+app.use(morgan('dev'));
 
 app.get('/api/v1/restaurants',(req,res)=>{
    res.json({
