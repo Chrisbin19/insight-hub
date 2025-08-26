@@ -17,10 +17,25 @@ app.get('/api/v1/restaurants',(req,res)=>{
 });  
 
 app.get('/api/v1/restaurants/:id',(req,res)=>{
-    console.log(req);
-})
+    res.status(200).json({
+    "status":"success",
+    "data":{
+        "restaurant":["mcdonalds",'wendys']
+    },
+   });
+});
 
 app.post('/api/v1/restaurants',(req,res)=>{
+    res.status(201).json({
+    "status":"success",
+    "data":{
+        "restaurant":["mcdonalds",'wendys']
+    },
+   });
+})
+
+app.put('/api/v1/restaurants/:id',(req,res)=>{
+    console.log(req.params.id);
     console.log(req.body);
 })
 const port= process.env.PORT || 3001;
