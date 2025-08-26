@@ -4,6 +4,8 @@ import express from 'express';
 import morgan from 'morgan';
 
 const app = express();
+app.use(express.json());
+
 
 app.get('/api/v1/restaurants',(req,res)=>{
    res.json({
@@ -19,7 +21,7 @@ app.get('/api/v1/restaurants/:id',(req,res)=>{
 })
 
 app.post('/api/v1/restaurants',(req,res)=>{
-    console.log(req);
+    console.log(req.body);
 })
 const port= process.env.PORT || 3001;
 app.listen(port,()=>{
