@@ -8,7 +8,8 @@ app.use(express.json());
 
 
 app.get('/api/v1/restaurants',async (req,res)=>{
-    const results = await db.query('select * from restaurants');
+    try{
+        const results = await db.query('select * from restaurants');
     console.log(results);
    res.json({
     status:"success",
@@ -18,6 +19,11 @@ app.get('/api/v1/restaurants',async (req,res)=>{
        
     },
    });
+    }
+    catch(err){
+        console.log(err);
+    }
+    
 });  
 
 app.get('/api/v1/restaurants/:id',(req,res)=>{
