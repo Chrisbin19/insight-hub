@@ -11,27 +11,29 @@ app.get('/api/v1/restaurants',async (req,res)=>{
     const results = await db.query('select * from restaurants');
     console.log(results);
    res.json({
-    "status":"success",
-    "data":{
-        "restaurant":["mcdonalds",'wendys']
+    status:"success",
+    results : results.rows.length,
+    data:{
+        restaurants : results.rows,
+       
     },
    });
 });  
 
 app.get('/api/v1/restaurants/:id',(req,res)=>{
     res.status(200).json({
-    "status":"success",
-    "data":{
-        "restaurant":["mcdonalds",'wendys']
+    status:"success",
+    data:{
+        restaurant:["mcdonalds",'wendys']
     },
    });
 });
 
 app.post('/api/v1/restaurants',(req,res)=>{
     res.status(201).json({
-    "status":"success",
-    "data":{
-        "restaurant":["mcdonalds",'wendys']
+    status:"success",
+    data:{
+        restaurant:["mcdonalds",'wendys']
     },
    });
 })
