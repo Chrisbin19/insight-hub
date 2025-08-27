@@ -63,9 +63,17 @@ app.post('/api/v1/restaurants',async (req,res)=>{
    }
 });
 
-app.put('/api/v1/restaurants/:id',(req,res)=>{
+app.put('/api/v1/restaurants/:id',async (req,res)=>{
     console.log(req.params.id);
-    console.log(req.body);
+    //console.log(req.body);
+    try{
+        const results = await db.query('update restaurants set name=$1,location=$2,price_range=$3 where id = $4 returning *',[
+            req.body.name,req.body.location,req.body.price_range,req.params.id
+        ]);
+    }
+    catch(error){
+        console.log(err);
+    }
 });
 
 app.delete('/api/v1/restaurants/:id',(req,res)=>{
