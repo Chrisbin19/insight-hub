@@ -4,7 +4,7 @@ import RestaurantdetailPage from './routes/RestaurantdetailPage';
 import Home from './routes/Home';
 import UpdatePage  from './routes/UpdatePage';
 const App = ()=>{
-    return (<div>
+    return (<div className='container'>
         <Router>
             <Routes>
              <Route path="/" element={<Home />} />
