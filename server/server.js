@@ -2,12 +2,14 @@ import dotenv from 'dotenv';
 dotenv.config();
 import express from 'express';
 import morgan from 'morgan';
-
+import db from './db/index.js';
 const app = express();
 app.use(express.json());
 
 
-app.get('/api/v1/restaurants',(req,res)=>{
+app.get('/api/v1/restaurants',async (req,res)=>{
+    const results = await db.query('select * from restaurants');
+    console.log(results);
    res.json({
     "status":"success",
     "data":{
