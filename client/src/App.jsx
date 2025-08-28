@@ -3,8 +3,12 @@ import {BrowserRouter as Router,Routes,Route} from 'react-router-dom';
 import RestaurantdetailPage from './routes/RestaurantdetailPage';
 import Home from './routes/Home';
 import UpdatePage  from './routes/UpdatePage';
+import { RestaurantsContextProvider } from './context/RestaurantsContext';
 const App = ()=>{
-    return (<div className='container'>
+    return (
+    <RestaurantsContextProvider>
+
+        <div className='container'>
         <Router>
             <Routes>
              <Route path="/" element={<Home />} />
@@ -12,7 +16,11 @@ const App = ()=>{
              <Route path="/restaurants/:id" element={<RestaurantdetailPage />} />
             </Routes>
         </Router>
-    </div>)
+    </div>
+
+
+    </RestaurantsContextProvider>
+    )
 };
 
 export default App;
