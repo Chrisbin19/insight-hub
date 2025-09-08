@@ -1,9 +1,10 @@
 import React,{useState,useContext, useEffect} from 'react'
-import {useParams} from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import RestaurantFinder from '../apis/RestaurantFinder';
 import { RestaurantsContext } from '../context/RestaurantsContext';
 const UpdateRestaurant = (props) => {
   const {id} = useParams();
+  let navigate = useNavigate();
   const {restauarants} = useContext(RestaurantsContext)
   const [name,setName] = useState("");
   const [location,setLocation] = useState("");
@@ -24,6 +25,7 @@ const UpdateRestaurant = (props) => {
         location,
         price_range :priceRange
     });
+    navigate('/');
   }
   return (
     <div>
