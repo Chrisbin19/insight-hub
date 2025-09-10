@@ -6,16 +6,13 @@ import { RestaurantsContext } from '../context/RestaurantsContext';
 const AddReview = () => {
   const { id } = useParams();
   
-  // 1. BRING BACK useContext to manage state
   const { selectedRestaurants, setSelectedRestaurants } = useContext(RestaurantsContext);
 
-  // Local state for the form inputs
   const [name, setName] = useState('');
   const [reviewText, setReviewText] = useState('');
   const [rating, setRating] = useState('Rating');
 
   const handleSubmitReview = async (e) => {
-    // 2. FIX the typo here
     e.preventDefault(); 
     
     try {
@@ -25,14 +22,33 @@ const AddReview = () => {
         rating,
       });
 
-      // The backend returns the newly created review
       const newReview = response.data.data.review;
 
-      // 3. UPDATE THE STATE - This is the key to making the review appear
+      // --- NEW LOGIC STARTS HERE ---
+
+      // Create the newly updated reviews array
+      const updatedReviews = [...selectedRestaurants.reviews, newReview];
+
+      // Calculate the new average rating
+      const totalRating = updatedReviews.reduce((sum, review) => {
+        // Ensure rating is treated as a number
+        return sum + Number(review.rating);
+      }, 0);
+      const newAverage = totalRating / updatedReviews.length;
+
+      // UPDATE THE STATE with the new review, new average, and new count
       setSelectedRestaurants({
-        ...selectedRestaurants, // Keep existing restaurant details
-        reviews: [...selectedRestaurants.reviews, newReview], // Add the new review to the array
+        // Keep the main restaurant details (like name, location)
+        restaurant: {
+          ...selectedRestaurants.restaurant,
+          average_rating: newAverage.toFixed(1), // Update average rating
+          count: updatedReviews.length, // Update the review count
+        },
+        // Update the reviews array
+        reviews: updatedReviews,
       });
+
+      // --- NEW LOGIC ENDS HERE ---
 
       // Clear the form fields after successful submission
       setName('');
@@ -46,8 +62,8 @@ const AddReview = () => {
 
   return (
     <div className="mb-2 mt-4">
-      {/* 4. USE onSubmit on the <form> tag */}
       <form onSubmit={handleSubmitReview}>
+        {/* ... existing form JSX ... */}
         <div className="row">
           <div className="form-group col-8">
             <label htmlFor="name">Name</label>
@@ -89,7 +105,6 @@ const AddReview = () => {
             required
           ></textarea>
         </div>
-        {/* The button now only needs to be of type="submit" */}
         <button type="submit" className="btn btn-primary mt-3">
           Submit
         </button>

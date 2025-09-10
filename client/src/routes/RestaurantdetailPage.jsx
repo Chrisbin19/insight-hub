@@ -11,28 +11,45 @@ const RestaurantdetailPage = () => {
   const {id} = useParams();
   console.log(id);
   const {selectedRestaurants,setSelectedRestaurants} = useContext(RestaurantsContext);
-  useEffect(
-    ()=>{
-      const fetchData = async ()=>{
-        try{
-          const response = await RestaurantFinder.get(`/${id}`);
-          console.log(response.data.data);
-        setSelectedRestaurants(response.data.data);
+   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await RestaurantFinder.get(`/${id}`);
+        const data = response.data.data;
+
+        if (data.reviews && data.reviews.length > 0) {
+          const validReviews = data.reviews.filter(review => typeof review.rating === 'number' || !isNaN(review.rating));
+          
+          const totalRating = validReviews.reduce((sum, review) => {
+            return sum + Number(review.rating);
+          }, 0);
+          
+          const average = validReviews.length > 0 ? totalRating / validReviews.length : 0;
+
+          data.restaurant.average_rating = average;
+          data.restaurant.count = validReviews.length;
+        } else {
+          data.restaurant.average_rating = 0;
+          data.restaurant.count = 0;
         }
-        catch(e){
-          console.log("error occured   "+ e)
-        }
-      };
-      fetchData();
-    },[]
-  );
+
+        setSelectedRestaurants(data);
+      } catch (err) {
+        console.error('Failed to fetch restaurant details:', err);
+      }
+    };
+
+    fetchData();
+  }, [id]);
+
+
   //console.log(selectedRestaurants.reviews);
   return (
     <div>{selectedRestaurants && (
       <>
       <h1 className='text-center display-1'>{selectedRestaurants.restaurant.name}</h1>
       <div className="text-center">
-        <StarRating rating = {selectedRestaurants.restaurant.average_rating}/>
+        <StarRating rating = {Number(selectedRestaurants.restaurant.average_rating)}/>
         <span className="text-warning ml-1">
           {selectedRestaurants.restaurant.count ? `(${selectedRestaurants.restaurant.count})` : '(0)'}
         </span>
