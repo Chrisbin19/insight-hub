@@ -1,6 +1,6 @@
 import React from 'react'
 import StarRating from './StarRating'
-const Reviews = (reviews) => {
+const Reviews = ({reviews}) => {
     if (!Array.isArray(reviews)) {
     return <p>No reviews available</p>;
   }
