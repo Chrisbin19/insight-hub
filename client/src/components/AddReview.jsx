@@ -1,17 +1,42 @@
-import React from 'react'
-
+import React,{useState} from 'react'
+import RestaurantFinder from '../apis/RestaurantFinder';
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 const AddReview = () => {
+    const {id} = useParams();
+    const location = useLocation();
+    const navigate = useNavigate();
+    const [name,setName] =useState("");
+    const [reviewText,setReviewText] = useState("");
+    const [rating,setRating] = useState("Rating");
+    const handleSubmitReview = async(e)=>{
+        e.preventdefault();
+        try{
+            
+        const response = await RestaurantFinder.post(`/${id}/addReview`,{
+            name,
+            review : reviewText,
+            rating
+        })
+        navigate('/')
+        navigate(location.pathname)
+        }
+        catch(err){
+            console.log(err)
+    }
+}
   return (
     <div className='mb-2'>
-        <form action="">
+        <form action=""> 
             <div className="form-row">
                 <div className="form-group col-8">
                     <label htmlFor="name">Name</label>
-                    <input id="name" placeholder='name' type="text" className="form-control" />
+                    <input value={name} onChange={e=> setName(e.target.value)} id="name" placeholder='name' type="text" className="form-control" />
                 </div>
                 <div className="form-group col-4">
                     <label htmlFor="rating">Rating</label>
-                    <select id="rating" className="custom-select">
+                    <select id="rating" className="custom-select"
+                        value = {rating} onChange = {e=> setRating(e.target.value)}
+                    >
                         <option disabled>Rating</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
@@ -23,8 +48,9 @@ const AddReview = () => {
             </div>
             <div className="form-group">
                 <label htmlFor="review">Review</label>
-                <textarea id="review" className="form-control"></textarea>
-                <button className="btn btn-primary">
+                <textarea id="review" className="form-control"
+                 value={reviewText} onChange = {e=>setReviewText(e.target.value)}></textarea>
+                <button className="btn btn-primary" onClick={handleSubmitReview} type = "submit">
                     Submit
                 </button>
             </div>

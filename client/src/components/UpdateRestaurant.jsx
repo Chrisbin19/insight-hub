@@ -15,6 +15,7 @@ const UpdateRestaurant = (props) => {
         setName(response.data.data.restaurant.name);
         setLocation(response.data.data.restaurant.location);
         setPriceRange(response.data.data.restaurant.price_range);
+        console.log(response.data.data.restaurant.name);
     };
     fetchData();
   },[]);
