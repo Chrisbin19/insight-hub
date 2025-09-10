@@ -34,7 +34,7 @@ const RestaurantdetailPage = () => {
       <div className="text-center">
         <StarRating rating = {selectedRestaurants.restaurant.average_rating}/>
         <span className="text-warning ml-1">
-          {selectedRestaurants.restaurant.count}
+          {selectedRestaurants.restaurant.count ? `(${selectedRestaurants.restaurant.count})` : '(0)'}
         </span>
       </div>
       <div className="mt-3">
